@@ -20,6 +20,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 import net.iso2013.mlapi.util.Updater;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.potion.PotionEffectType;
 
 /**
  * Created by iso2013 on 5/23/2018.
@@ -74,7 +76,9 @@ public final class MultiLineAPIPlugin extends JavaPlugin implements MultiLineAPI
 
     @Override
     public TagImpl getTag(Entity entity) {
-        if (entity == null) return null;
+        if (entity == null) {
+            return null;
+        }
         return tags.get(entity.getEntityId());
     }
 
@@ -87,9 +91,14 @@ public final class MultiLineAPIPlugin extends JavaPlugin implements MultiLineAPI
             TagImpl tag = new TagImpl(entity, renderer, controllersMap.get(entity.getType()), lineFactory, states);
             tags.put(id, tag);
 
-            if (notifyPlayers)
-                renderer.getNearby(tag, 1.0).filter(input -> input != entity).forEach(player -> renderer.spawnTag(tag
-                        , player, null));
+            if (notifyPlayers) {
+
+                if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).hasPotionEffect(PotionEffectType.INVISIBILITY)) {
+                    renderer.getNearby(tag, 1.0).filter(input -> input != entity).forEach(player -> renderer.spawnTag(tag,
+                             player, null));
+                }
+
+            }
         }
 
         return tags.get(id);
@@ -98,7 +107,9 @@ public final class MultiLineAPIPlugin extends JavaPlugin implements MultiLineAPI
     @Override
     public void deleteTag(Entity entity) {
         TagImpl tag = tags.remove(entity.getEntityId());
-        if (tag == null) return;
+        if (tag == null) {
+            return;
+        }
 
         TagRenderer renderer = tag.getRenderer();
         renderer.getNearby(tag, 1.1).forEach(player -> renderer.destroyTag(tag, player, null));
@@ -153,7 +164,6 @@ public final class MultiLineAPIPlugin extends JavaPlugin implements MultiLineAPI
 
         tag.update();
     }
-
 
     @Override
     public void update(TagController controller, Player target) {

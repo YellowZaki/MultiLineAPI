@@ -7,7 +7,7 @@
     <groupId>net.iso2013.mlapi</groupId>
     <artifactId>MultiLineAPI-Parent</artifactId>
     <packaging>pom</packaging>
-    <version>2.2.5-SNAPSHOT</version>
+    <version>2.2.7-SNAPSHOT</version>
     <modules>
         <module>MultiLineAPI</module>
         <module>MultiLineAPI-Plugin</module>
@@ -19,24 +19,15 @@
 
     <repositories>
         <repository>
-            <id>frostalf</id>
-            <url>https://repo.frostalf.net</url>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
         </repository>
         <repository>
-            <id>dmulloy2-repo</id>
-            <url>https://repo.dmulloy2.net/nexus/repository/public</url>
-        </repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots</url>
+        </repository>  
     </repositories>
     
-    <distributionManagement>
-        <repository>
-            <id>FrostRepo</id>
-            <url>sftp://repo.frostalf.net/var/www/repo</url>
-            <uniqueVersion>false</uniqueVersion>
-            <name>FrostRepo</name>
-            <layout>default</layout>
-        </repository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -58,22 +49,6 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
-                <configuration>
-                    <repositoryId>FrostRepo</repositoryId>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
         <resources>
